@@ -8,9 +8,12 @@ import DashboardScreen from "./Screens/DashboardScreen";
 import SettingsScreen from "./Screens/SettingsScreen";
 import RecipesScreen from "./Screens/RecipesScreen";
 
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+
 const Drawer = createDrawerNavigator();
 
-export default function App() {
+export function App() {
   const userToken = null;
   return (
     <GestureHandlerRootView style={styles.container}>
@@ -32,6 +35,14 @@ export default function App() {
         </Drawer.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>
+  );
+}
+
+export default function AppContainer() {
+  return (
+      <Provider store={store}>
+        <App />
+      </Provider>
   );
 }
 

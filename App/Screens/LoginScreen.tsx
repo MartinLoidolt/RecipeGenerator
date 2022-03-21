@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import {Platform, Pressable, StatusBar, StyleSheet, Text, TextInput, TextInputComponent, View} from 'react-native';
+import { useAppDispatch } from "../redux/hooks";
+import { signInUser } from "../redux/actions/userActions";
 
 export default function LoginScreen() {
 
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+
+    const dispatch = useAppDispatch();
 
     return (
         <View style={styles.container}>
@@ -24,7 +28,7 @@ export default function LoginScreen() {
                     secureTextEntry
                     onChangeText={setPassword}
                 />
-                <Pressable style={styles.button}>
+                <Pressable style={styles.button} onPress={() => {dispatch(signInUser(username, password))}}>
                     <Text>Anmelden</Text>
                 </Pressable>
             </View>
