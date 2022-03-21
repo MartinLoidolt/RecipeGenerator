@@ -1,6 +1,11 @@
+import { useState } from 'react';
 import {Platform, Pressable, StatusBar, StyleSheet, Text, TextInput, TextInputComponent, View} from 'react-native';
 
-export default function() {
+export default function LoginScreen() {
+
+    const [username, setUsername] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+
     return (
         <View style={styles.container}>
             <View style={styles.headerView}>
@@ -8,8 +13,17 @@ export default function() {
                 <Text style={styles.headerGenerator}>Generator</Text>
             </View>
             <View style={styles.inputs}>
-                <TextInput style={styles.textInput}/>
-                <TextInput style={styles.textInput}/>
+                <TextInput
+                    style={styles.textInput}
+                    placeholder="Username"
+                    onChangeText={setUsername}
+                />
+                <TextInput
+                    style={styles.textInput}
+                    placeholder="Passwort"
+                    secureTextEntry
+                    onChangeText={setPassword}
+                />
                 <Pressable style={styles.button}>
                     <Text>Anmelden</Text>
                 </Pressable>
