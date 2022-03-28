@@ -15,11 +15,13 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    private BCryptPasswordEncoder endcoder = new BCryptPasswordEncoder();
+
     @ResponseBody
     @GetMapping(path="/users/{username}", produces = "application/json")
     public ResponseEntity<User> TryLoginUser(@PathVariable String username, @PathParam("password") String password) {
         User user = userRepository.findByUsername(username);
-        if(user != null && user.getUsername().equals(username) && new BCryptPasswordEncoder().matches(password, user.getPassword())) {
+        if(user != null && user.getUsername().equals(username) && endcoder.matches(password, user.getPassword())) {
             return new ResponseEntity(user, HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -29,6 +31,12 @@ public class UserController {
     @ResponseBody
     @PostMapping(path="/users", produces = "application/json")
     public ResponseEntity<User> RegisterUser(@RequestBody User user) {
-        return new ResponseEntity(user, HttpStatus.OK);
+        try {
+            user.setPassword(endcoder.encode(user.getPassword()));
+            userRepository.save(user);
+            return new ResponseEntity(user, HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity(user, HttpStatus.CONFLICT);
+        }
     }
 }
