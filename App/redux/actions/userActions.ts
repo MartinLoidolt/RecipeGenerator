@@ -21,7 +21,7 @@ const signOut = (): Action => ({
 });
 
 async function sendLogoutRequest(): Promise<Response | void> {
-    return fetch(`${WEBHOOK}/api/users/logout`, {
+    return fetch(`${WEBHOOK}/users/logout`, {
         method: "GET",
     }).catch((error) => {
         console.log(`apiCalls sendLogoutRequest: ${error}`);
@@ -32,12 +32,14 @@ async function sendLoginRequest(
     username: string,
     password: string
 ): Promise<User> {
-    return fetch(`${WEBHOOK}/api/users/username/${username}?p=${password}`, {
+    return fetch(`${WEBHOOK}/users/${username}?password=${password}`, {
         method: "GET",
     })
         .then((resp) => {
             if (resp.status == 200) {
-                return resp.json();
+                return resp.json().then(json => {
+                    return json;
+                });
             } else {
                 throw resp.status;
             }
