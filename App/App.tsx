@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import {Platform, StatusBar, StyleSheet, Text} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -16,14 +16,16 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { restoreUser } from "./redux/actions/userActions";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
-import { signInUser, signOutUser } from "./redux/actions/userActions";
+import { signOutUser } from "./redux/actions/userActions";
+import {themeNavigation, themeReactNativeElements} from "./Utils/globals";
+import {ThemeProvider} from "@react-native-elements/themed";
 
 const Drawer = createDrawerNavigator();
 
 export function App() {
 
     const dispatch = useAppDispatch();
-    //AsyncStorage.clear(); //If you need to delete the User Data everytime you start the app you can enable it.
+    AsyncStorage.clear(); //If you need to delete the User Data everytime you start the app you can enable it.
 
     useEffect(() => {
         async function getUser() {
@@ -61,46 +63,60 @@ export function App() {
     }
 
     return (
-    <GestureHandlerRootView style={styles.container}>
-      <NavigationContainer>
-        <Drawer.Navigator drawerContent={props => {
-            if (userToken != null && !isLoading) {
-                return renderDrawerContent(props);
-            } else {
-                return renderDrawerContentLogin(props);
-            }
-        }}>
-          {
-            !userToken ? (
-                <>
-                  <Drawer.Screen name={"Login"} component={LoginScreen}/>
-                </>
-            ) : (
-                <>
-                  <Drawer.Screen name={"Dashboard"} component={DashboardScreen}/>
-                  <Drawer.Screen name={"Rezepte"} component={RecipesScreen}/>
-                  <Drawer.Screen name={"Einstellungen"} component={SettingsScreen}/>
-                </>
-            )
-          }
-        </Drawer.Navigator>
-      </NavigationContainer>
-    </GestureHandlerRootView>
+        <View style={styles.container}>
+            <GestureHandlerRootView style={styles.container}>
+                <NavigationContainer
+                    theme={themeNavigation}>
+                    <Drawer.Navigator
+                        screenOptions={{gestureEnabled: false, swipeEnabled: false}}
+                        drawerContent={props => {
+                            return renderDrawerContent(props);
+                            /*
+                            if (userToken != null && !isLoading) {
+                                return renderDrawerContent(props);
+                            } else {
+                                return renderDrawerContentLogin(props);
+                            }
+
+                             */
+                    }}>
+                        {
+                            !userToken ? (
+                                <>
+                                    <Drawer.Screen name={"Login"} component={LoginScreen}/>
+                                    {/*Delete the 3 Drawer.Screens below*/}
+                                    <Drawer.Screen name={"Dashboard"} component={DashboardScreen}/>
+                                    <Drawer.Screen name={"Rezepte"} component={RecipesScreen}/>
+                                    <Drawer.Screen name={"Einstellungen"} component={SettingsScreen}/>
+                                </>
+                            ) : (
+                                <>
+                                    <Drawer.Screen name={"Dashboard"} component={DashboardScreen}/>
+                                    <Drawer.Screen name={"Rezepte"} component={RecipesScreen}/>
+                                    <Drawer.Screen name={"Einstellungen"} component={SettingsScreen}/>
+                                </>
+                            )
+                        }
+                    </Drawer.Navigator>
+                </NavigationContainer>
+            </GestureHandlerRootView>
+        </View>
+
   );
 }
 
 export default function AppContainer() {
   return (
       <Provider store={store}>
-        <App />
+          <ThemeProvider theme={themeReactNativeElements}>
+              <App />
+          </ThemeProvider>
       </Provider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    height: "100%",
-    width: "100%",
-    paddingTop: Platform.OS == "android" ? StatusBar.currentHeight : 0,
+      flex: 1,
   },
 });

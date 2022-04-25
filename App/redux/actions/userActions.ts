@@ -32,6 +32,7 @@ async function sendLoginRequest(
     username: string,
     password: string
 ): Promise<User> {
+    console.log(`${WEBHOOK}/users/${username}?password=${password}`);
     return fetch(`${WEBHOOK}/users/${username}?password=${password}`, {
         method: "GET",
     })
@@ -55,6 +56,7 @@ async function sendLoginRequest(
 
 export const signInUser =
     (username: string, passowrd: string) => async (dispatch: any) => {
+    console.log(username + passowrd);
         sendLoginRequest(username, passowrd)
             .then((user: User) => {
                 console.log(user);
