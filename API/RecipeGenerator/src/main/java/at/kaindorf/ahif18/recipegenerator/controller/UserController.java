@@ -11,32 +11,31 @@ import org.springframework.web.bind.annotation.*;
 import javax.websocket.server.PathParam;
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    private BCryptPasswordEncoder endcoder = new BCryptPasswordEncoder();
+    private BCryptPasswordEncoder enocder = new BCryptPasswordEncoder();
 
-    @ResponseBody
-    @GetMapping(path="/users/{username}", produces = "application/json")
+    @GetMapping(path="/{username}", produces = "application/json")
     public ResponseEntity<User> TryLoginUser(@PathVariable String username, @PathParam("password") String password) {
         User user = userRepository.findByUsername(username);
-        if(user != null && user.getUsername().equals(username) && endcoder.matches(password, user.getPassword())) {
+        if(user != null && user.getUsername().equals(username) && enocder.matches(password, user.getPassword())) {
             return new ResponseEntity(user, HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
-    @ResponseBody
-    @PostMapping(path="/users", produces = "application/json")
+    @PostMapping(produces = "application/json")
     public ResponseEntity<User> RegisterUser(@RequestBody User user) {
         try {
-            user.setPassword(endcoder.encode(user.getPassword()));
+            user.setPassword(enocder.encode(user.getPassword()));
             userRepository.save(user);
-            return new ResponseEntity(user, HttpStatus.OK);
+            return ResponseEntity.ok().body(user);
         } catch (Exception ex) {
-            return new ResponseEntity(user, HttpStatus.CONFLICT);
+            return ResponseEntity.badRequest().build();
         }
     }
 }
