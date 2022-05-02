@@ -1,10 +1,16 @@
 import { useState } from 'react';
-import {Platform, Pressable, StatusBar, StyleSheet, Text, TextInput, TextInputComponent, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
+import {Button, Input} from '@react-native-elements/themed';
+import { useAppDispatch } from "../redux/hooks";
+import { signInUser } from "../redux/actions/userActions";
+import {colorTextDark} from "../Utils/colors";
 
 export default function LoginScreen() {
 
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+
+    const dispatch = useAppDispatch();
 
     return (
         <View style={styles.container}>
@@ -13,20 +19,25 @@ export default function LoginScreen() {
                 <Text style={styles.headerGenerator}>Generator</Text>
             </View>
             <View style={styles.inputs}>
-                <TextInput
+                <Input
+                    containerStyle={styles.textInputContainer}
                     style={styles.textInput}
                     placeholder="Username"
                     onChangeText={setUsername}
                 />
-                <TextInput
+                <Input
+                    containerStyle={styles.textInputContainer}
                     style={styles.textInput}
                     placeholder="Passwort"
                     secureTextEntry
                     onChangeText={setPassword}
                 />
-                <Pressable style={styles.button}>
-                    <Text>Anmelden</Text>
-                </Pressable>
+                <Button
+                    style={styles.button}
+                    title="Anmelden"
+                    containerStyle={{width: '100%'}}
+                    onPress={() => {dispatch(signInUser(username, password))}}
+                />
             </View>
         </View>
     );
@@ -35,7 +46,7 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        margin: 15,
+        margin: '7%',
     },
     headerView: {
       flex: 1,
@@ -43,31 +54,23 @@ const styles = StyleSheet.create({
     headerRecipe: {
         fontSize: 100,
         fontWeight: "bold",
-        color: "#222004",
+        color: colorTextDark,
     },
     headerGenerator: {
         fontSize: 50,
         fontWeight: "bold",
         alignSelf: "flex-end",
-        color: "#232304"
+        color: colorTextDark,
     },
     inputs: {
         flex: 1,
     },
+    textInputContainer: {
+        paddingHorizontal: 0,
+    },
     textInput: {
-        height: 40,
-        marginVertical: 8,
-        padding: 10,
-        borderWidth: 1,
-        borderColor: "#000",
-        borderRadius: 3,
     },
     button: {
-        height: 40,
-        marginVertical: 9,
-        borderRadius: 4,
-        backgroundColor: "#297777",
-        alignItems: 'center',
-        justifyContent: 'center',
+
     }
 });

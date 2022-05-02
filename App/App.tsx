@@ -1,44 +1,122 @@
-import {Platform, StatusBar, StyleSheet, Text} from 'react-native';
+import React, { useEffect } from "react";
+import {StyleSheet, View} from 'react-native';
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {NavigationContainer} from "@react-navigation/native";
-import {createDrawerNavigator} from "@react-navigation/drawer";
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
 
 import LoginScreen from "./Screens/LoginScreen";
 import DashboardScreen from "./Screens/DashboardScreen";
 import SettingsScreen from "./Screens/SettingsScreen";
 import RecipesScreen from "./Screens/RecipesScreen";
 
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+import { restoreUser } from "./redux/actions/userActions";
+import { useAppDispatch, useAppSelector } from "./redux/hooks";
+import { signOutUser } from "./redux/actions/userActions";
+import {themeNavigation, themeReactNativeElements} from "./Utils/globals";
+import {ThemeProvider} from "@react-native-elements/themed";
+
 const Drawer = createDrawerNavigator();
 
-export default function App() {
-  const userToken = null;
+export function App() {
+
+    const dispatch = useAppDispatch();
+    AsyncStorage.clear(); //If you need to delete the User Data everytime you start the app you can enable it.
+
+    useEffect(() => {
+        async function getUser() {
+            await AsyncStorage.getItem("user")
+                .then((userJson) => {
+                    dispatch(restoreUser(JSON.parse(userJson + "")));
+                })
+                .catch((error) => console.log(`App useEffect restoreUser: ${error}`));
+        }
+
+        getUser();
+    }, []);
+
+    const isLoading = useAppSelector((state) => state.user.isLoading);
+    const userToken = useAppSelector((state) => state.user.userToken);
+
+    function renderDrawerContent(props: any) {
+        return (
+            <DrawerContentScrollView {...props}>
+                <DrawerItemList {...props} />
+                <DrawerItem
+                    label="Ausloggen"
+                    onPress={() => dispatch(signOutUser())}
+                />
+            </DrawerContentScrollView>
+        );
+    }
+
+    function renderDrawerContentLogin(props: any) {
+        return (
+            <DrawerContentScrollView {...props}>
+                <DrawerItemList {...props} />
+            </DrawerContentScrollView>
+        );
+    }
+
+    return (
+        <View style={styles.container}>
+            <GestureHandlerRootView style={styles.container}>
+                <NavigationContainer
+                    theme={themeNavigation}>
+                    <Drawer.Navigator
+                        screenOptions={{gestureEnabled: false, swipeEnabled: false}}
+                        drawerContent={props => {
+                            return renderDrawerContent(props);
+                            /*
+                            if (userToken != null && !isLoading) {
+                                return renderDrawerContent(props);
+                            } else {
+                                return renderDrawerContentLogin(props);
+                            }
+
+                             */
+                    }}>
+                        {
+                            !userToken ? (
+                                <>
+                                    <Drawer.Screen name={"Login"} component={LoginScreen}/>
+                                    {/*Delete the 3 Drawer.Screens below*/}
+                                    <Drawer.Screen name={"Dashboard"} component={DashboardScreen}/>
+                                    <Drawer.Screen name={"Rezepte"} component={RecipesScreen}/>
+                                    <Drawer.Screen name={"Einstellungen"} component={SettingsScreen}/>
+                                </>
+                            ) : (
+                                <>
+                                    <Drawer.Screen name={"Dashboard"} component={DashboardScreen}/>
+                                    <Drawer.Screen name={"Rezepte"} component={RecipesScreen}/>
+                                    <Drawer.Screen name={"Einstellungen"} component={SettingsScreen}/>
+                                </>
+                            )
+                        }
+                    </Drawer.Navigator>
+                </NavigationContainer>
+            </GestureHandlerRootView>
+        </View>
+
+  );
+}
+
+export default function AppContainer() {
   return (
-    <GestureHandlerRootView style={styles.container}>
-      <NavigationContainer>
-        <Drawer.Navigator>
-          {
-            !userToken ? (
-                <>
-                  <Drawer.Screen name={"Login"} component={LoginScreen}/>
-                </>
-            ) : (
-                <>
-                  <Drawer.Screen name={"Dashboard"} component={DashboardScreen}/>
-                  <Drawer.Screen name={"Rezepte"} component={RecipesScreen}/>
-                  <Drawer.Screen name={"Einstellungen"} component={SettingsScreen}/>
-                </>
-            )
-          }
-        </Drawer.Navigator>
-      </NavigationContainer>
-    </GestureHandlerRootView>
+      <Provider store={store}>
+          <ThemeProvider theme={themeReactNativeElements}>
+              <App />
+          </ThemeProvider>
+      </Provider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    height: "100%",
-    width: "100%",
-    paddingTop: Platform.OS == "android" ? StatusBar.currentHeight : 0,
+      flex: 1,
   },
 });
