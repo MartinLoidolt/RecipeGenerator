@@ -11,4 +11,9 @@ export interface Recipe {
     image: string;
 }
 
+export interface RecipeProps {
+    recipe: Recipe,
+    style?: any
+}
+
 export type Action = { type: string; payload: any };
