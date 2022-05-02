@@ -19,7 +19,7 @@ public class Recipe {
     private Integer recipeId;
     private String name;
 
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<RecipeIngredient> ingredients = new ArrayList<>();
 
     @Override
@@ -29,6 +29,13 @@ public class Recipe {
                 ", name='" + name + '\'' +
                 ", ingredients=" + ingredients.toString() +
                 '}';
+    }
+
+    public void setIngredients(List<RecipeIngredient> ingredients) {
+        this.ingredients = ingredients;
+        for (RecipeIngredient reIn: ingredients) {
+            reIn.setRecipe(this);
+        }
     }
 
     public Recipe(String name, List<RecipeIngredient> ingredients) {

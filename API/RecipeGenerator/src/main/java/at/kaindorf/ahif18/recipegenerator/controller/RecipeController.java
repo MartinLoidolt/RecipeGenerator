@@ -1,6 +1,8 @@
 package at.kaindorf.ahif18.recipegenerator.controller;
 
 import at.kaindorf.ahif18.recipegenerator.beans.entities.Recipe;
+import at.kaindorf.ahif18.recipegenerator.beans.repository.IngredientRepository;
+import at.kaindorf.ahif18.recipegenerator.beans.repository.RecipeIngredientRepository;
 import at.kaindorf.ahif18.recipegenerator.beans.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,12 @@ import java.net.URI;
 public class RecipeController {
     @Autowired
     private RecipeRepository recipeRepository;
+
+    @Autowired
+    private IngredientRepository ingredientRepository;
+
+    @Autowired
+    private RecipeIngredientRepository recipeIngredientRepository;
 
     @GetMapping(produces = "application/json")
     public ResponseEntity<Recipe> AllRecipes() {
