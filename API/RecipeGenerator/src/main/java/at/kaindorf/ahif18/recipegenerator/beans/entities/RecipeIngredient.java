@@ -22,6 +22,7 @@ public class RecipeIngredient {
     private Ingredient ingredient;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @MapsId("ingredientId")
     @JoinColumn(name = "recipe_Id")
     @JsonIgnoreProperties("ingredients")
     private Recipe recipe;
