@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,40 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/recipes")
 public class RecipeController {
+    @PostConstruct
+    public void SeedData() {
+        ArrayList<Recipe> recipes = new ArrayList<>();
+        recipes.add(new Recipe.RecipeBuilder("Butterkeks")
+                .addIngredient("Butter", 100)
+                .addIngredient("Mehl", 200)
+                .addIngredient("Milch", 50)
+                .build());
+
+        recipes.add(new Recipe.RecipeBuilder("Kuchen")
+                .addIngredient("Zucker", 22)
+                .addIngredient("Mehl", 69)
+                .addIngredient("Schocko", 42)
+                .addIngredient("Ei", 2)
+                .build());
+
+        recipes.add(new Recipe.RecipeBuilder("Chili sin carne")
+                .addIngredient("Kartofeln", 400)
+                .addIngredient("Cayennepfeffer", 1)
+                .addIngredient("Gemüsesuppe", 200)
+                .addIngredient("Öl", 1)
+                .addIngredient("Tomaten", 400)
+                .addIngredient("Tomatenmark", 2)
+                .addIngredient("Sellerie ", 60)
+                .addIngredient("Paprika ", 1)
+                .addIngredient("Mais ", 200)
+                .addIngredient("Kidneybohnen  ", 300)
+                .addIngredient("Knoblauchzehe  ", 1)
+                .addIngredient("Zwiebel  ", 1)
+                .addIngredient("Salz  ", 1)
+                .build());
+
+        recipeRepository.saveAll(recipes);
+    }
     @Autowired
     private RecipeRepository recipeRepository;
 

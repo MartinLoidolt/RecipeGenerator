@@ -32,17 +32,37 @@ public class Recipe {
     }
 
     public void setIngredients(List<RecipeIngredient> ingredients) {
-
         this.ingredients = ingredients;
-
         for (RecipeIngredient reIn: ingredients) {
             reIn.setRecipe(this);
         }
-
     }
 
     public Recipe(String name, List<RecipeIngredient> ingredients) {
         this.name = name;
         this.ingredients = ingredients;
+    }
+
+    public void addIngredient(RecipeIngredient recipeIngredient) {
+        this.ingredients.add(recipeIngredient);
+    }
+
+    @Data
+    @NoArgsConstructor
+    public static class RecipeBuilder {
+        private Recipe recipe;
+
+        public RecipeBuilder(String name) {
+            this.recipe = new Recipe(name, new ArrayList<>());
+        }
+
+        public Recipe build() {
+            return this.recipe;
+        }
+
+        public RecipeBuilder addIngredient(String ingredientName, int amount) {
+            this.recipe.addIngredient(new RecipeIngredient(new Ingredient(ingredientName), this.recipe, amount));
+            return this;
+        }
     }
 }

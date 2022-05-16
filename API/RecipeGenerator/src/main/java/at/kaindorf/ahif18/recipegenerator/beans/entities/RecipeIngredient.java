@@ -13,7 +13,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name="recipe_ingredient")
 public class RecipeIngredient {
-
     @EmbeddedId
     private RecipeIngredientId recipeIngredientId = new RecipeIngredientId();
 
@@ -22,7 +21,7 @@ public class RecipeIngredient {
     @JoinColumn(name = "ingredient_Id")
     private Ingredient ingredient;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("ingredientId")
     @JoinColumn(name = "recipe_Id")
     @JsonIgnoreProperties("ingredients")
@@ -33,8 +32,14 @@ public class RecipeIngredient {
     @Override
     public String toString() {
         return "RecipeIngredient{" +
-                "ingredient=" + ingredient +
+                ", ingredient=" + ingredient +
                 ", amount=" + amount +
                 '}';
+    }
+
+    public RecipeIngredient(Ingredient ingredient, Recipe recipe, double amount) {
+        this.ingredient = ingredient;
+        this.recipe = recipe;
+        this.amount = amount;
     }
 }
