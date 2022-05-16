@@ -16,4 +16,8 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ingredientId;
     private String name;
+
+    public Ingredient(String name) {
+        this.name = name;
+    }
 }

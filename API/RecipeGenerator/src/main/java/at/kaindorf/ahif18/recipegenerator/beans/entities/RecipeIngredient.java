@@ -21,7 +21,7 @@ public class RecipeIngredient {
     @JoinColumn(name = "ingredient_Id")
     private Ingredient ingredient;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "recipe_Id")
     @JsonIgnoreProperties("ingredients")
     private Recipe recipe;
@@ -35,5 +35,11 @@ public class RecipeIngredient {
                 ", ingredient=" + ingredient +
                 ", amount=" + amount +
                 '}';
+    }
+
+    public RecipeIngredient(Ingredient ingredient, Recipe recipe, double amount) {
+        this.ingredient = ingredient;
+        this.recipe = recipe;
+        this.amount = amount;
     }
 }

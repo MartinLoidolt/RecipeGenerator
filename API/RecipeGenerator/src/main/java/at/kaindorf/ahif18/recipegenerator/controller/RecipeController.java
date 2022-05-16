@@ -8,12 +8,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.net.URI;
 
 
 @RestController
 @RequestMapping("/recipes")
 public class RecipeController {
+    @PostConstruct
+    public void SeedData() {
+        Recipe rec = new Recipe.RecipeBuilder("Butterkeks")
+                .addIngredient("Butter", 100)
+                .addIngredient("Mehl", 200)
+                .addIngredient("Milch", 50)
+                .build();
+
+        Recipe rec2 = new Recipe.RecipeBuilder("Kuchen")
+                .addIngredient("Zucker", 22)
+                .addIngredient("Schocko", 42)
+                .addIngredient("Ei", 2)
+                .build();
+
+        recipeRepository.save(rec);
+        recipeRepository.save(rec2);
+    }
     @Autowired
     private RecipeRepository recipeRepository;
 

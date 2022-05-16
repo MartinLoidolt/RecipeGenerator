@@ -8,11 +8,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
+    @PostConstruct
+    public void SeedData() {
+        userRepository.save(new User("admin", enocder.encode("admin")));
+    }
+
     @Autowired
     private UserRepository userRepository;
 
