@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 
@@ -80,15 +81,11 @@ public class RecipeController {
     public ResponseEntity<Recipe> PutRecipe(@RequestBody Recipe recipeDTO) {
         try {
 
-            Recipe recipe = recipeRepository.findById(recipeDTO.getRecipeId()).get();
-
-            recipe.setName(recipeDTO.getName());
-            recipe.setIngredients(recipeDTO.getIngredients());
-
-            //recipeIngredient has to be updated and saved
-
-            recipeRepository.save(recipe);
-
+            if(recipeRepository.findById(recipeDTO.getRecipeId()).isPresent()) {
+                recipeRepository.saveAndFlush(recipeDTO);
+            } else {
+                throw new NoSuchElementException();
+            }
 
             return ResponseEntity.created(URI.create("")).build();
         } catch (Exception ex) {

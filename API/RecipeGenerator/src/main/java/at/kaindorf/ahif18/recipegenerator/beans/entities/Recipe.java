@@ -33,23 +33,12 @@ public class Recipe {
 
     public void setIngredients(List<RecipeIngredient> ingredients) {
 
-        System.out.println("+++++++++++++++++++++++++");
-        System.out.println(this.ingredients);
-        System.out.println("-------------------------");
-        System.out.println(ingredients);
-        System.out.println("+++++++++++++++++++++++++");
-
-
         this.ingredients = ingredients;
-        System.out.println(this.ingredients);
-        System.out.println("**************************");
 
         for (RecipeIngredient reIn: ingredients) {
             reIn.setRecipe(this);
         }
 
-        System.out.println(this);
-        System.out.println("???????????????????????????");
     }
 
     public Recipe(String name, List<RecipeIngredient> ingredients) {
