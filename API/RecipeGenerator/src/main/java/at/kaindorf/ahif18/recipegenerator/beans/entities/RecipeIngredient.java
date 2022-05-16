@@ -13,11 +13,11 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name="recipe_ingredient")
 public class RecipeIngredient {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @EmbeddedId
+    private RecipeIngredientId recipeIngredientId = new RecipeIngredientId();
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @MapsId("recipeId")
     @JoinColumn(name = "ingredient_Id")
     private Ingredient ingredient;
 
@@ -32,7 +32,6 @@ public class RecipeIngredient {
     @Override
     public String toString() {
         return "RecipeIngredient{" +
-                "id=" + id +
                 ", ingredient=" + ingredient +
                 ", amount=" + amount +
                 '}';
