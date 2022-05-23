@@ -65,8 +65,8 @@ public class Recipe {
             return this.recipe;
         }
 
-        public RecipeBuilder addIngredient(String ingredientName, int amount) {
-            this.recipe.addIngredient(new RecipeIngredient(new Ingredient(ingredientName), this.recipe, amount));
+        public RecipeBuilder addIngredient(String ingredientName, String unit, int amount) {
+            this.recipe.addIngredient(new RecipeIngredient(new Ingredient(ingredientName, unit), this.recipe, amount));
             return this;
         }
     }

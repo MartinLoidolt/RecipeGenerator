@@ -16,8 +16,10 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ingredientId;
     private String name;
+    private String unit;
 
-    public Ingredient(String name) {
+    public Ingredient(String name, String unit) {
         this.name = name;
+        this.unit = unit;
     }
 }
