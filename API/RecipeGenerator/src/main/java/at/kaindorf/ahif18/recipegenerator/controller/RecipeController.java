@@ -15,6 +15,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 
 @RestController
@@ -137,5 +138,30 @@ public class RecipeController {
             System.out.println("ERROR PutRecipe");
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @GetMapping(produces = "application/json")
+    @RequestMapping("/generate/{days}")
+    public ResponseEntity<List<Recipe>> GetRecipesForTimespan(@PathVariable int days) {
+        List<Recipe> recipes = new ArrayList<>();
+        List<Recipe> allRecipes = new ArrayList<>();
+
+        Random rand = new Random();
+
+        for(int i = 0; i < days; i++) {
+            int recipeAmount = allRecipes.size();
+
+            if(recipeAmount == 0) {
+                recipeRepository.findAll().forEach(allRecipes::add);
+                recipeAmount = allRecipes.size();
+            }
+
+            int id = rand.nextInt(recipeAmount);
+
+            recipes.add(allRecipes.get(id));
+            allRecipes.remove(id);
+        }
+
+        return ResponseEntity.ok().body(recipes);
     }
 }
