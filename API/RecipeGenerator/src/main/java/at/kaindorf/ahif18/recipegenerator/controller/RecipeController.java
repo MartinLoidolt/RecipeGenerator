@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Random;
 
 
 @RestController
@@ -24,37 +25,45 @@ public class RecipeController {
     @PostConstruct
     public void SeedData() {
         ArrayList<Recipe> recipes = new ArrayList<>();
-        recipes.add(new Recipe.RecipeBuilder("Butterkeks")
-                .addIngredient("Butter", 100)
-                .addIngredient("Mehl", 200)
-                .addIngredient("Milch", 50)
+        recipes.add(new Recipe.RecipeBuilder(
+                "Butterkeks",
+                "Backen mit Kinder macht immer Spaß. Hier das Rezept von den einfachen Butterkekse zum Nachbacken.",
+                "https://www.gutekueche.at/storage/media/recipe/112673/resp/einfache-butterkekse___webp_939_626.webp")
+                .addIngredient("Butter", "g", 100)
+                .addIngredient("Mehl", "g", 200)
+                .addIngredient("Milch", "ml", 50)
                 .build());
 
-        recipes.add(new Recipe.RecipeBuilder("Kuchen")
-                .addIngredient("Zucker", 22)
-                .addIngredient("Mehl", 69)
-                .addIngredient("Schocko", 42)
-                .addIngredient("Ei", 2)
+        recipes.add(new Recipe.RecipeBuilder("Kuchen",
+                "Dieses Zebrastreifen - Kuchen Rezept ist nicht nur ein Hingucker sondern auch ein Gaumenschmaus.",
+                "https://www.gutekueche.at/storage/media/recipe/19549/resp/zebrastreifen-kuchen___webp_940_625.webp")
+                .addIngredient("Zucker", "g", 22)
+                .addIngredient("Mehl", "g", 69)
+                .addIngredient("Schocko", "g", 42)
+                .addIngredient("Ei", "ganze", 2)
                 .build());
 
-        recipes.add(new Recipe.RecipeBuilder("Chili sin carne")
-                .addIngredient("Kartofeln", 400)
-                .addIngredient("Cayennepfeffer", 1)
-                .addIngredient("Gemüsesuppe", 200)
-                .addIngredient("Öl", 1)
-                .addIngredient("Tomaten", 400)
-                .addIngredient("Tomatenmark", 2)
-                .addIngredient("Sellerie ", 60)
-                .addIngredient("Paprika ", 1)
-                .addIngredient("Mais ", 200)
-                .addIngredient("Kidneybohnen  ", 300)
-                .addIngredient("Knoblauchzehe  ", 1)
-                .addIngredient("Zwiebel  ", 1)
-                .addIngredient("Salz  ", 1)
+        recipes.add(new Recipe.RecipeBuilder("Chili sin carne",
+                "Ein herzhaftes Chili sin Carne darf jeden Tag auf den Tisch. Das vegetarische Rezept schmeckt immer.",
+                "https://www.gutekueche.at/storage/media/recipe/25565/resp/chili-sin-carne___webp_620_413.webp")
+                .addIngredient("Kartofeln", "g", 400)
+                .addIngredient("Cayennepfeffer", "brise", 1)
+                .addIngredient("Gemüsesuppe", "ml", 200)
+                .addIngredient("Öl", "EL", 1)
+                .addIngredient("Tomaten", "g", 400)
+                .addIngredient("Tomatenmark", "EL", 2)
+                .addIngredient("Sellerie", "g", 60)
+                .addIngredient("Paprika", "ganzer", 1)
+                .addIngredient("Mais", "g", 200)
+                .addIngredient("Kidneybohnen", "g", 300)
+                .addIngredient("Knoblauchzehe", "ganze", 1)
+                .addIngredient("Zwiebel", "ganze", 1)
+                .addIngredient("Salz", "EL", 1)
                 .build());
 
         recipeRepository.saveAll(recipes);
     }
+
     @Autowired
     private RecipeRepository recipeRepository;
 
@@ -80,7 +89,7 @@ public class RecipeController {
     public ResponseEntity<Recipe> GetRecipeByName(@PathVariable String name) {
         try {
             return ResponseEntity.ok().body(recipeRepository.findByName(name));
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -91,7 +100,7 @@ public class RecipeController {
             for (RecipeIngredient recipeIngredient : recipe.getIngredients()) {
                 Optional<Ingredient> optionalIngredient =
                         ingredientRepository.findByName(recipeIngredient.getIngredient().getName());
-                if(optionalIngredient.isPresent()) {
+                if (optionalIngredient.isPresent()) {
                     recipeIngredient.setIngredient(optionalIngredient.get());
                 }
             }
@@ -127,5 +136,30 @@ public class RecipeController {
             System.out.println("ERROR PutRecipe");
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @GetMapping(produces = "application/json")
+    @RequestMapping("/generate/{days}")
+    public ResponseEntity<List<Recipe>> GetRecipesForTimespan(@PathVariable int days) {
+        List<Recipe> recipes = new ArrayList<>();
+        List<Recipe> allRecipes = new ArrayList<>();
+
+        Random rand = new Random();
+
+        for (int i = 0; i < days; i++) {
+            int recipeAmount = allRecipes.size();
+
+            if (recipeAmount == 0) {
+                recipeRepository.findAll().forEach(allRecipes::add);
+                recipeAmount = allRecipes.size();
+            }
+
+            int id = rand.nextInt(recipeAmount);
+
+            recipes.add(allRecipes.get(id));
+            allRecipes.remove(id);
+        }
+
+        return ResponseEntity.ok().body(recipes);
     }
 }
