@@ -1,7 +1,7 @@
 import {createTheme} from "@react-native-elements/themed";
 import {colorBackground, colorPrimary, colorSecondary, colorTextDark, colorTextLight} from "./colors";
 
-export const WEBHOOK = "http://1e84-213-225-11-190.ngrok.io";
+export const WEBHOOK = "http://localhost:8080";
 
 export const themeNavigation = {
     dark: false,

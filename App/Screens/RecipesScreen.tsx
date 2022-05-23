@@ -1,11 +1,20 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {View, StyleSheet, ScrollView} from "react-native";
 import {SearchBar} from "react-native-elements";
 import {colorBackground} from "../Utils/colors";
 import RecipeComponent from "../Components/Recipe"
 import {Recipe} from "../Utils/interfaces";
+import {useAppDispatch, useAppSelector} from "../redux/hooks";
+import {onGetRecipes} from "../redux/actions/recipeActions";
+import {RootState} from "../redux/store";
 
 export default function() {
+
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(onGetRecipes());
+    }, []);
 
     const [search, setSearch] = useState<string>("");
 
@@ -13,26 +22,11 @@ export default function() {
         setSearch(search);
     };
 
-    const recipes: Recipe[] = [
-        {
-            id: 1,
-            image: "https://www.springlane.de/magazin/wp-content/uploads/2017/11/Klassischer-Bratapfel-mit-Marzipan-Nuss-Füllung_74803_featured.jpg",
-            name: "Apfel",
-            description: "Bratapfeil"
-        },
-        {
-            id: 2,
-            image: "https://www.springlane.de/magazin/wp-content/uploads/2017/11/Klassischer-Bratapfel-mit-Marzipan-Nuss-Füllung_74803_featured.jpg",
-            name: "Lasagne",
-            description: "Bratapfeil"
-        },
-        {
-            id: 3,
-            image: "https://www.springlane.de/magazin/wp-content/uploads/2017/11/Klassischer-Bratapfel-mit-Marzipan-Nuss-Füllung_74803_featured.jpg",
-            name: "Fisch",
-            description: "Bratapfeil"
-        },
-    ]
+    const recipes: Recipe[] = useAppSelector(
+        (state: RootState) => state.recipe.recipes
+    );
+
+    console.log(recipes);
 
     return (
             <View style={styles.container}>
@@ -49,7 +43,8 @@ export default function() {
                 <ScrollView style={styles.recipesContainer} showsVerticalScrollIndicator={false}>
                     {
                         recipes.map((recipe) => {
-                            return <RecipeComponent key={recipe.id} style={styles.recipeComponent} recipe={recipe}/>
+                            console.log(recipe.recipeId);
+                            return <RecipeComponent key={recipe.recipeId} style={styles.recipeComponent} recipe={recipe}/>
                         })
                     }
                 </ScrollView>

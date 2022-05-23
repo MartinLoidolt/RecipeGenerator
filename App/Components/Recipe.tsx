@@ -4,18 +4,19 @@ import {View, Image, StyleSheet, Text} from "react-native";
 import {RecipeProps} from "../Utils/interfaces";
 import {colorNeutral} from "../Utils/colors";
 
-const RecipeComponent = (props: RecipeProps) => {
+const  RecipeComponent = (props: RecipeProps) => {
     return (
-        <View style={[styles.recipeContainer, {...props.style}]}>
+        <View key={"view" + props.recipe.recipeId} style={[styles.recipeContainer, {...props.style}]}>
             <Image
+                key={"image" + props.recipe.recipeId}
                 style={styles.recipeImage}
                 source={{
                     uri: props.recipe.image
                 }}
             />
-            <View style={styles.recipeInfoContainer}>
-                <Text>{props.recipe.name}</Text>
-                <Text>{props.recipe.description}</Text>
+            <View key={"textView" + props.recipe.recipeId} style={styles.recipeInfoContainer}>
+                <Text key={"name" + props.recipe.recipeId}>{props.recipe.name}</Text>
+                <Text key={"description" + props.recipe.recipeId}>{props.recipe.description}</Text>
             </View>
         </View>
     );

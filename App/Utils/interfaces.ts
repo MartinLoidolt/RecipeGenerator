@@ -5,10 +5,10 @@ export interface User {
 }
 
 export interface Recipe {
-    id: number;
+    recipeId: number;
     name: string;
     description: string;
-    image: string;
+    imageUrl: string;
 }
 
 export interface RecipeProps {
