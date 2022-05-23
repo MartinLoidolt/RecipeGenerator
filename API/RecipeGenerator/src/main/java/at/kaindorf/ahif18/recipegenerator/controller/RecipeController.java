@@ -23,20 +23,27 @@ public class RecipeController {
     @PostConstruct
     public void SeedData() {
         ArrayList<Recipe> recipes = new ArrayList<>();
-        recipes.add(new Recipe.RecipeBuilder("Butterkeks")
+        recipes.add(new Recipe.RecipeBuilder(
+                "Butterkeks",
+                "Backen mit Kinder macht immer Spaß. Hier das Rezept von den einfachen Butterkekse zum Nachbacken.",
+                "https://www.gutekueche.at/storage/media/recipe/112673/resp/einfache-butterkekse___webp_939_626.webp")
                 .addIngredient("Butter", 100)
                 .addIngredient("Mehl", 200)
                 .addIngredient("Milch", 50)
                 .build());
 
-        recipes.add(new Recipe.RecipeBuilder("Kuchen")
+        recipes.add(new Recipe.RecipeBuilder("Kuchen",
+                "Dieses Zebrastreifen - Kuchen Rezept ist nicht nur ein Hingucker sondern auch ein Gaumenschmaus.",
+                "https://www.gutekueche.at/storage/media/recipe/19549/resp/zebrastreifen-kuchen___webp_940_625.webp")
                 .addIngredient("Zucker", 22)
                 .addIngredient("Mehl", 69)
                 .addIngredient("Schocko", 42)
                 .addIngredient("Ei", 2)
                 .build());
 
-        recipes.add(new Recipe.RecipeBuilder("Chili sin carne")
+        recipes.add(new Recipe.RecipeBuilder("Chili sin carne",
+                "Ein herzhaftes Chili sin Carne darf jeden Tag auf den Tisch. Das vegetarische Rezept schmeckt immer.",
+                "https://www.gutekueche.at/storage/media/recipe/25565/resp/chili-sin-carne___webp_620_413.webp")
                 .addIngredient("Kartofeln", 400)
                 .addIngredient("Cayennepfeffer", 1)
                 .addIngredient("Gemüsesuppe", 200)
