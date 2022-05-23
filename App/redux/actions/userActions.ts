@@ -59,7 +59,6 @@ export const signInUser =
     console.log(username + passowrd);
         sendLoginRequest(username, passowrd)
             .then((user: User) => {
-                console.log(user);
                 AsyncStorage.setItem("user", JSON.stringify(user));
                 dispatch(signIn(user));
             })

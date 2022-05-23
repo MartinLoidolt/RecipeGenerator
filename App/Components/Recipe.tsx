@@ -11,7 +11,7 @@ const  RecipeComponent = (props: RecipeProps) => {
                 key={"image" + props.recipe.recipeId}
                 style={styles.recipeImage}
                 source={{
-                    uri: props.recipe.image
+                    uri: props.recipe.imageUrl
                 }}
             />
             <View key={"textView" + props.recipe.recipeId} style={styles.recipeInfoContainer}>

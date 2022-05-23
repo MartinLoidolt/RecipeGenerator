@@ -1,5 +1,4 @@
-import {createTheme} from "@react-native-elements/themed";
-import {colorBackground, colorPrimary, colorSecondary, colorTextDark, colorTextLight} from "./colors";
+import {colorBackground, colorPrimary, colorTextDark, colorTextLight} from "./colors";
 
 export const WEBHOOK = "http://localhost:8080";
 
@@ -14,17 +13,3 @@ export const themeNavigation = {
         notification: 'rgb(255, 69, 58)',
     },
 };
-
-export const themeReactNativeElements = createTheme({
-    colors: {
-        primary: colorPrimary,
-        secondary: colorSecondary,
-        black: colorTextDark,
-
-    },
-    darkColors: {
-        primary: colorPrimary,
-        secondary: colorSecondary,
-    }
-
-});

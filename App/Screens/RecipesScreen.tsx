@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
-import {View, StyleSheet, ScrollView} from "react-native";
-import {SearchBar} from "react-native-elements";
+import {View, StyleSheet, ScrollView, TextInput} from "react-native";
 import {colorBackground} from "../Utils/colors";
 import RecipeComponent from "../Components/Recipe"
 import {Recipe} from "../Utils/interfaces";
@@ -26,24 +25,18 @@ export default function() {
         (state: RootState) => state.recipe.recipes
     );
 
-    console.log(recipes);
-
     return (
             <View style={styles.container}>
-                <SearchBar
+                <TextInput
                     style={styles.search}
-                    containerStyle={styles.searchContainer}
-                    lightTheme
                     placeholder="Search Here..."
                     value={search}
-                    //@ts-ignore
                     onChangeText={(text) => updateSearch(text)}
                     autoCorrect={false}
                 />
                 <ScrollView style={styles.recipesContainer} showsVerticalScrollIndicator={false}>
                     {
                         recipes.map((recipe) => {
-                            console.log(recipe.recipeId);
                             return <RecipeComponent key={recipe.recipeId} style={styles.recipeComponent} recipe={recipe}/>
                         })
                     }

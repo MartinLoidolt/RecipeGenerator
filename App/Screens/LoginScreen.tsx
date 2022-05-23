@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {Button, Input} from '@react-native-elements/themed';
+import {StyleSheet, Text, View, Button, TextInput} from 'react-native';
 import { useAppDispatch } from "../redux/hooks";
 import { signInUser } from "../redux/actions/userActions";
 import {colorTextDark} from "../Utils/colors";
@@ -19,23 +18,19 @@ export default function LoginScreen() {
                 <Text style={styles.headerGenerator}>Generator</Text>
             </View>
             <View style={styles.inputs}>
-                <Input
-                    containerStyle={styles.textInputContainer}
+                <TextInput
                     style={styles.textInput}
                     placeholder="Username"
                     onChangeText={setUsername}
                 />
-                <Input
-                    containerStyle={styles.textInputContainer}
+                <TextInput
                     style={styles.textInput}
                     placeholder="Passwort"
                     secureTextEntry
                     onChangeText={setPassword}
                 />
                 <Button
-                    style={styles.button}
                     title="Anmelden"
-                    containerStyle={{width: '100%'}}
                     onPress={() => {dispatch(signInUser(username, password))}}
                 />
             </View>
@@ -69,6 +64,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 0,
     },
     textInput: {
+        width: '100%',
+        height: 50,
     },
     button: {
 
