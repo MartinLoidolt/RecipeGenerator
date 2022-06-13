@@ -13,3 +13,12 @@ export const themeNavigation = {
         notification: 'rgb(255, 69, 58)',
     },
 };
+
+export const StyleGuidelines = {
+    borderWidth: 2,
+    borderRadius: 3,
+    smallFontSize: 12,
+    mediumFontSize: 14,
+    bigFontSize: 18,
+};
+

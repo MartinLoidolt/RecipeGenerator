@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import {StyleSheet, Text, View, Button, TextInput} from 'react-native';
+import {StyleSheet, Text, View, TextInput} from 'react-native';
 import { useAppDispatch } from "../redux/hooks";
 import { signInUser } from "../redux/actions/userActions";
-import {colorTextDark} from "../Utils/colors";
+import {colorPrimary, colorTextDark} from "../Utils/colors";
+import Button from "../Components/Button";
 
 export default function LoginScreen() {
 
@@ -20,7 +21,10 @@ export default function LoginScreen() {
             <View style={styles.inputs}>
                 <TextInput
                     style={styles.textInput}
-                    placeholder="Username"
+                    autoCorrect={false}
+                    autoCapitalize="none"
+                    placeholder="Benutzername"
+                    textContentType="username"
                     onChangeText={setUsername}
                 />
                 <TextInput
@@ -30,6 +34,10 @@ export default function LoginScreen() {
                     onChangeText={setPassword}
                 />
                 <Button
+                    type='filled'
+                    height={50}
+                    color={colorPrimary}
+                    textColor={colorTextDark}
                     title="Anmelden"
                     onPress={() => {dispatch(signInUser(username, password))}}
                 />
@@ -64,8 +72,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 0,
     },
     textInput: {
+        marginBottom: 10,
         width: '100%',
         height: 50,
+        borderColor: '#a9a9a9',
+        borderWidth: 1,
+        borderRadius: 3,
+        paddingStart: 8,
     },
     button: {
 

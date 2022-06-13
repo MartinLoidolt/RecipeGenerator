@@ -21,3 +21,22 @@ export async function getRecipes(): Promise<Recipe[]> {
             }
         });
 }
+
+export async function getGeneratedRecipes(): Promise<Recipe[]> {
+    return fetch(WEBHOOK + "/recipes/generate/7")
+        .then((resp) => {
+            if (resp.status != 200) {
+                throw resp.status;
+            } else if (resp.headers.get("Content-Type")?.includes("text/html")) {
+                throw 403;
+            }
+            return resp.json();
+        })
+        .catch((error) => {
+            if (error == 403) {
+                store.dispatch(signOutUser());
+            } else {
+                console.log(`apiCalls getActiveTours: ${error}`);
+            }
+        });
+}

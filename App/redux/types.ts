@@ -4,4 +4,5 @@ export const reducerType = {
     signOutType: "SIGN_OUT",
 
     storeRecipesType: "STORE_RECIPES",
+    storeGeneratedRecipesType: "STORE_GENERATED_RECIPES",
 };

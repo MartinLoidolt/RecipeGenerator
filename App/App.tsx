@@ -10,15 +10,14 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItem, DrawerItemL
 import LoginScreen from "./Screens/LoginScreen";
 import DashboardScreen from "./Screens/DashboardScreen";
 import SettingsScreen from "./Screens/SettingsScreen";
-import RecipesScreen from "./Screens/RecipesScreen";
 
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { restoreUser } from "./redux/actions/userActions";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { signOutUser } from "./redux/actions/userActions";
-import {themeNavigation, themeReactNativeElements} from "./Utils/globals";
-import {ThemeProvider} from "@react-native-elements/themed";
+import {themeNavigation} from "./Utils/globals";
+import {RecipeStackNavigator} from "./Navigators/RecipeNavigator";
 
 const Drawer = createDrawerNavigator();
 
@@ -39,7 +38,6 @@ export function App() {
         getUser();
     }, []);
 
-    const isLoading = useAppSelector((state) => state.user.isLoading);
     const userToken = useAppSelector((state) => state.user.userToken);
 
     function renderDrawerContent(props: any) {
@@ -86,13 +84,13 @@ export function App() {
                                     <Drawer.Screen name={"Login"} component={LoginScreen}/>
                                     {/*Delete the 3 Drawer.Screens below*/}
                                     <Drawer.Screen name={"Dashboard"} component={DashboardScreen}/>
-                                    <Drawer.Screen name={"Rezepte"} component={RecipesScreen}/>
+                                    <Drawer.Screen name={"Rezepte"} component={RecipeStackNavigator}/>
                                     <Drawer.Screen name={"Einstellungen"} component={SettingsScreen}/>
                                 </>
                             ) : (
                                 <>
                                     <Drawer.Screen name={"Dashboard"} component={DashboardScreen}/>
-                                    <Drawer.Screen name={"Rezepte"} component={RecipesScreen}/>
+                                    <Drawer.Screen name={"Rezepte"} component={RecipeStackNavigator}/>
                                     <Drawer.Screen name={"Einstellungen"} component={SettingsScreen}/>
                                 </>
                             )
@@ -108,9 +106,7 @@ export function App() {
 export default function AppContainer() {
   return (
       <Provider store={store}>
-          <ThemeProvider theme={themeReactNativeElements}>
               <App />
-          </ThemeProvider>
       </Provider>
   );
 }

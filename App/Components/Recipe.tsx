@@ -15,7 +15,7 @@ const  RecipeComponent = (props: RecipeProps) => {
                 }}
             />
             <View key={"textView" + props.recipe.recipeId} style={styles.recipeInfoContainer}>
-                <Text key={"name" + props.recipe.recipeId}>{props.recipe.name}</Text>
+                <Text key={"name" + props.recipe.recipeId} style={styles.name}>{props.recipe.name}</Text>
                 <Text key={"description" + props.recipe.recipeId}>{props.recipe.description}</Text>
             </View>
         </View>
@@ -41,6 +41,9 @@ const styles = StyleSheet.create({
     recipeInfoContainer: {
         flex: 1,
         flexGrow: 3,
+    },
+    name: {
+      fontWeight: 'bold'
     },
 });
 

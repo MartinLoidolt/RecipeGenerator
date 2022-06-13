@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {View, StyleSheet, ScrollView, TextInput} from "react-native";
+import {View, StyleSheet, ScrollView, TextInput, Pressable} from "react-native";
 import {colorBackground} from "../Utils/colors";
 import RecipeComponent from "../Components/Recipe"
 import {Recipe} from "../Utils/interfaces";
@@ -7,7 +7,7 @@ import {useAppDispatch, useAppSelector} from "../redux/hooks";
 import {onGetRecipes} from "../redux/actions/recipeActions";
 import {RootState} from "../redux/store";
 
-export default function() {
+export default function RecipesScreen({ navigation }: any) {
 
     const dispatch = useAppDispatch();
 
@@ -21,7 +21,7 @@ export default function() {
         setSearch(search);
     };
 
-    const recipes: Recipe[] = useAppSelector(
+    let recipes: Recipe[] = useAppSelector(
         (state: RootState) => state.recipe.recipes
     );
 
@@ -36,8 +36,13 @@ export default function() {
                 />
                 <ScrollView style={styles.recipesContainer} showsVerticalScrollIndicator={false}>
                     {
-                        recipes.map((recipe) => {
-                            return <RecipeComponent key={recipe.recipeId} style={styles.recipeComponent} recipe={recipe}/>
+                        recipes?.map((recipe) => {
+                            return (
+                                <Pressable key={recipe.recipeId} onPress={() => navigation.navigate('RecipeDetails', recipe)}>
+                                    <RecipeComponent style={styles.recipeComponent} recipe={recipe}/>
+                                </Pressable>
+                                );
+
                         })
                     }
                 </ScrollView>

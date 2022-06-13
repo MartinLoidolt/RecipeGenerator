@@ -3,10 +3,12 @@ import {reducerType} from "../types";
 
 export interface recipeState {
     recipes: Recipe[],
+    generatedRecipes: Recipe[]
 }
 
 export const recipeInitialState: recipeState = {
     recipes: [],
+    generatedRecipes: [],
 };
 
 export const recipeReducer = (
@@ -18,6 +20,11 @@ export const recipeReducer = (
             return {
                 ...prevState,
                 recipes: action.payload,
+            };
+        case reducerType.storeGeneratedRecipesType:
+            return {
+              ...prevState,
+              generatedRecipes: action.payload,
             };
         default:
             return prevState;
