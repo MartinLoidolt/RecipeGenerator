@@ -61,6 +61,60 @@ public class RecipeController {
                 .addIngredient("Salz", "EL", 1)
                 .build());
 
+        recipes.add(new Recipe.RecipeBuilder("Suppe",
+                "Super mega hardcore tolle und schöne Suppe",
+                "https://www.gutekueche.at/storage/media/recipe/11919/resp/kuerbiscremesuppe___webp_460_307.webp")
+                .addIngredient("Zwiebeln", "Stk", 1)
+                .addIngredient("Cayennepfeffer", "brise", 1)
+                .addIngredient("Gemüsesuppe", "ml", 200)
+                .addIngredient("Öl", "EL", 1)
+                .addIngredient("Tomaten", "g", 400)
+                .addIngredient("Tomatenmark", "EL", 2)
+                .addIngredient("Sellerie", "g", 60)
+                .addIngredient("Paprika", "ganzer", 1)
+                .addIngredient("Mais", "g", 200)
+                .addIngredient("Kidneybohnen", "g", 300)
+                .addIngredient("Knoblauchzehe", "ganze", 1)
+                .addIngredient("Zwiebel", "ganze", 1)
+                .addIngredient("Salz", "EL", 1)
+                .addIngredient("Ingwer", "g", 400)
+                .addIngredient("Schokolade", "EL", 2)
+                .addIngredient("Zimt", "g", 60)
+                .addIngredient("Pulver", "ganzer", 1)
+                .addIngredient("Zucker", "g", 200)
+                .addIngredient("Lachbohne", "g", 300)
+                .addIngredient("Apfel", "ganze", 1)
+                .addIngredient("Banane", "ganze", 1)
+                .addIngredient("Kiwi", "EL", 1)
+                .build());
+
+        recipes.add(new Recipe.RecipeBuilder(
+                "Schoko Keks",
+                "Kinder essen gerne Schoko.",
+                "https://www.gutekueche.at/storage/media/recipe/14691/resp/chocolate-cookies___webp_938_567.webp")
+                .addIngredient("Butter", "g", 100)
+                .addIngredient("Mehl", "g", 200)
+                .addIngredient("Milch", "ml", 50)
+                .build());
+
+        recipes.add(new Recipe.RecipeBuilder(
+                "Tomatenrisotto",
+                "Kinder essen gerne Schoko und Tomatenrissoto.",
+                "https://www.gutekueche.at/storage/media/recipe/40992/resp/tomatenrisotto___webp_620_413.webp")
+                .addIngredient("Butter", "g", 100)
+                .addIngredient("Mehl", "g", 200)
+                .addIngredient("Milch", "ml", 50)
+                .build());
+
+        recipes.add(new Recipe.RecipeBuilder(
+                "Pizza",
+                "Pizza schmeckt oft lecker",
+                "https://www.gutekueche.at/storage/media/recipe/45951/resp/pizza-mit-spinat-und-ei___webp_620_413.webp")
+                .addIngredient("Butter", "g", 100)
+                .addIngredient("Mehl", "g", 200)
+                .addIngredient("Milch", "ml", 50)
+                .build());
+
         recipeRepository.saveAll(recipes);
     }
 
