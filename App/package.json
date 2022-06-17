@@ -23,7 +23,7 @@
     "react-native": "0.64.3",
     "react-native-gesture-handler": "~2.1.0",
     "react-native-reanimated": "~2.3.1",
-    "react-native-table-component": "^1.2.2",
+    "react-native-table-component": "https://github.com/slice312/react-native-table-component.git",
     "react-native-web": "0.17.1",
     "react-redux": "^7.2.6",
     "undefined": "@expo/vector-icons/FontAwesome"

@@ -36,7 +36,7 @@ export default function RecipesScreen({ navigation }: any) {
                 />
                 <ScrollView style={styles.recipesContainer} showsVerticalScrollIndicator={false}>
                     {
-                        recipes?.map((recipe) => {
+                        recipes?.filter((recipe) => recipe.name.toLowerCase().includes(search.toLowerCase())).map((recipe) => {
                             return (
                                 <Pressable key={recipe.recipeId} onPress={() => navigation.navigate('RecipeDetails', recipe)}>
                                     <RecipeComponent style={styles.recipeComponent} recipe={recipe}/>
@@ -62,6 +62,12 @@ const styles = StyleSheet.create({
         backgroundColor: colorBackground,
     },
     search: {
+        width: '100%',
+        height: 50,
+        borderColor: '#a9a9a9',
+        borderWidth: 1,
+        borderRadius: 3,
+        paddingStart: 8,
     },
     recipesContainer: {
       marginTop: '3%'

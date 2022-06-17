@@ -24,7 +24,7 @@ const Drawer = createDrawerNavigator();
 export function App() {
 
     const dispatch = useAppDispatch();
-    AsyncStorage.clear(); //If you need to delete the User Data everytime you start the app you can enable it.
+    //AsyncStorage.clear(); //If you need to delete the User Data everytime you start the app you can enable it.
 
     useEffect(() => {
         async function getUser() {
@@ -68,24 +68,24 @@ export function App() {
                     <Drawer.Navigator
                         screenOptions={{gestureEnabled: false, swipeEnabled: false}}
                         drawerContent={props => {
-                            return renderDrawerContent(props);
-                            /*
-                            if (userToken != null && !isLoading) {
+                            if (userToken != null) {
                                 return renderDrawerContent(props);
                             } else {
                                 return renderDrawerContentLogin(props);
                             }
-
-                             */
                     }}>
                         {
                             !userToken ? (
                                 <>
                                     <Drawer.Screen name={"Login"} component={LoginScreen}/>
                                     {/*Delete the 3 Drawer.Screens below*/}
-                                    <Drawer.Screen name={"Dashboard"} component={DashboardScreen}/>
-                                    <Drawer.Screen name={"Rezepte"} component={RecipeStackNavigator}/>
-                                    <Drawer.Screen name={"Einstellungen"} component={SettingsScreen}/>
+                                    {
+                                        /*
+                                        <Drawer.Screen name={"Dashboard"} component={DashboardScreen}/>
+                                        <Drawer.Screen name={"Rezepte"} component={RecipeStackNavigator}/>
+                                        <Drawer.Screen name={"Einstellungen"} component={SettingsScreen}/>
+                                         */
+                                    }
                                 </>
                             ) : (
                                 <>

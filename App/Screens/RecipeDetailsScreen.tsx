@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Text, Image} from "react-native";
+import {StyleSheet, View, Text, Image, ScrollView} from "react-native";
 import {Recipe} from "../Utils/interfaces";
 import {Cell, Row, Table, TableWrapper} from "react-native-table-component";
 
@@ -24,7 +24,7 @@ export default function RecipeDetailsScreen({ route }: any) {
                     <Text style={styles.descriptionText}>{recipe.description}</Text>
                 </View>
             </View>
-          <View style={styles.bottomView}>
+          <ScrollView showsVerticalScrollIndicator={false} style={styles.bottomView}>
               <Table>
                   <Row
                       style={styles.headerRow}
@@ -61,7 +61,7 @@ export default function RecipeDetailsScreen({ route }: any) {
                           );
                       })}
               </Table>
-          </View>
+          </ScrollView>
       </View>
     );
 }
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     },
     rowSecondary: {
         flexDirection: "row",
-        backgroundColor: '#c5c5c5',
+        backgroundColor: '#f3f3f3',
     },
     nameCell: {
         width: tableWidthArr[0],

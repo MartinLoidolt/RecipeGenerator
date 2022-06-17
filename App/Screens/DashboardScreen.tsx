@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, StyleSheet, View} from "react-native";
+import {ScrollView, StyleSheet, View, Text} from "react-native";
 import Button from "../Components/Button";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import {colorPrimary} from "../Utils/colors";
@@ -32,7 +32,10 @@ export default function() {
                 {
                     generatedRecipes?.map((recipe, index) => {
                         return (
-                            <RecipeComponent key={index} style={styles.recipeComponent} recipe={recipe}/>
+                            <View key={index}>
+                                <Text style={styles.text}>Tag {index + 1}</Text>
+                                <RecipeComponent style={styles.recipeComponent} recipe={recipe}/>
+                            </View>
                         );
 
                     })
@@ -52,5 +55,9 @@ const styles = StyleSheet.create({
     },
     recipeComponent: {
         marginBottom: '3%',
+    },
+    text: {
+        fontWeight: 'bold',
+        marginBottom: '1%'
     }
 });
